@@ -1,13 +1,13 @@
 import React, { Component, ReactElement } from 'react';
 import classnames from 'classnames';
-import Tab from './Tab';
+import TabPanel from './TabPanel';
 import Icon from '../icon';
 import TabsProps from './PropsType';
 
 class Tabs extends Component<TabsProps, any> {
   static displayName = 'Tabs';
 
-  static Tab: typeof Tab;
+  static Panel: typeof TabPanel;
 
   private tabHeaderWrap;
 
@@ -18,7 +18,7 @@ class Tabs extends Component<TabsProps, any> {
   static defaultProps = {
     defaultValue: 0,
     prefixCls: 'zw-tabs',
-    type: 'card',
+    type: 'line',
     direction: 'horizontal',
     size: 'md',
     onChange: () => {},
@@ -134,7 +134,7 @@ class Tabs extends Component<TabsProps, any> {
           value: index,
         });
       }
-      onChange(index);
+      typeof onChange === 'function' && onChange(index);
     }
   };
 
@@ -142,7 +142,7 @@ class Tabs extends Component<TabsProps, any> {
     e.stopPropagation();
     const { onTabClose } = this.props;
     if (!disabled) {
-      onTabClose(index);
+      typeof onTabClose === 'function' && onTabClose(index);
     }
   };
 
@@ -265,9 +265,9 @@ class Tabs extends Component<TabsProps, any> {
 
     const content = React.Children.map(children, (item, $index) => {
       return (
-        <Tab {...(item as ReactElement<any>).props} selected={value === $index}>
+        <TabPanel {...(item as ReactElement<any>).props} selected={value === $index}>
           {(item as ReactElement<any>).props.children}
-        </Tab>
+        </TabPanel>
       );
     });
 
@@ -277,9 +277,7 @@ class Tabs extends Component<TabsProps, any> {
           <div className={`${prefixCls}__header__scroll`} ref={this.tabHeaderWrap}>
             <div className={`${prefixCls}__header__nav`} ref={this.tabHeaderNav} style={isArrowShown ? headerNavStyle : {}}>
               {items}
-              {
-                type === 'line' && this.renderHeaderLine()
-              }
+              {type === 'line' && this.renderHeaderLine()}
             </div>
           </div>
           {

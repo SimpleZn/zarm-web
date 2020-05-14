@@ -1,22 +1,2 @@
 @import '../../style/core/index';
 @import 'node_modules/zarm/lib/checkbox/style/component.scss';
-
-@include b(checkbox) {
-  @include m(disabled) {
-    @include e(inner) {
-      opacity: 1;
-      background-color: var(--checkbox-disabled-background);
-    }
-
-    @include m(checked) {
-      @include e(inner) {
-        border-color: var(--checkbox-border-color);
-        background-color: var(--checkbox-disabled-background);
-
-        &:before {
-          border-color: var(--checkbox-border-color);
-        }
-      }
-    }
-  }
-}

@@ -40,6 +40,7 @@ export default class Demo extends React.PureComponent {
       return { args, argv };
     }).then(({ args, argv }) => {
       value = value
+        .replace(/import\s+\{\s+(.*)\s+\}\s+from\s+'react';/, 'const { $1 } = React;')
         .replace(/import\s+{\s+(.*)\s+}\s+from\s+'zarm-web';/, 'const { $1 } = ZarmWeb;')
         .replace('mountNode', `document.getElementById('${this.containerId}')`);
 
@@ -59,11 +60,10 @@ export default class Demo extends React.PureComponent {
   }
 
   render() {
-    const { className } = this.props;
     const { showBlock } = this.state;
 
     return (
-      <div className={`demo-block demo-box ${className}`}>
+      <div className="demo-block demo-box">
         {this.title.split(('\n')).map((item, index) => {
           if (index === 0) return <h2 key={item}>{item}</h2>;
           if (item) return <p key={item}>{item}</p>;
